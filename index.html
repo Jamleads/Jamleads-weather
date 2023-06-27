@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Jamleads Weather Forecast Dasboard" />
+
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/taiwindcss">
+      @layer utilities {
+        .content-auto {
+          content-visibility: auto;
+        }
+      }
+    </style>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              bgColor: "#282C33",
+              textColor: "#FFFFFF",
+              bgWhite: "#D9D9D9",
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- jQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.0.min.js"
+      integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- swiperJS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script type="module">
+      import Swiper from "https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.esm.browser.min.js";
+
+      // const swiper = new Swiper(...)
+    </script>
+
+    <link rel="stylesheet" href="style.css" />
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
+    <!-- main script -->
+    <script src="script.js" defer></script>
+
+    <title>Jamleads Weather</title>
+  </head>
+
+  <body class="body bg-bgColor text-textColor">
+    <header class="flex items-center justify-between py-5 lg:px-20">
+      <div class="nav-brand flex items-center w-2/5">
+        <img src="./asset/logo.svg" alt="Weather-Logo" />
+        <p class="lg:text-2xl font-bold">Jamleads Weather</p>
+      </div>
+
+      <div class="nav-list flex items-center justify-around lg:w-3/5">
+        <ul class="flex items-center gap-10 text-lg">
+          <li>Today</li>
+          <li>Tomorrow</li>
+          <li>Weekly Forecast</li>
+          <li>Monthly Forecast</li>
+        </ul>
+
+        <div class="nav-list-switch flex items-center gap-3">
+          <p>°K</p>
+          <label class="switch">
+            <input type="checkbox" />
+            <span class="slider"></span>
+          </label>
+          <p>°C</p>
+        </div>
+      </div>
+    </header>
+
+    <div class="mt-5 form">
+      <div
+        class="lg:w-2/5 pl-3 bg-bgWhite mx-auto flex items-center rounded-2xl"
+      >
+        <img
+          src="./asset/icon _search_.svg"
+          alt="seach-icon"
+          class="w-8 input-icon"
+        />
+        <input
+          type="text"
+          placeholder="Search Location"
+          class="input-location py-2 px-5 text-bgColor ml-2 bg-transparent w-4/5"
+        />
+        <button class="bg-gradient p-2 rounded-2xl seach-btn">Search</button>
+      </div>
+    </div>
+
+    <section class="lg:h-[45%] mt-14 flex items-center justify-between">
+      <!-- <button class="carousel-button prev" data-carousel-button="prev">&#8656</button>
+    <button class="carousel-button next" data-carousel-button="next">&#8658</button> -->
+
+      <div
+        class="wrapper h-full lg:w-[50%] lg:mx-auto"
+        aria-label="newest carousel"
+      >
+        <div class="carousel h-full w-[100%]" data-carousel>
+          <ul class="h-full" data-slides>
+            <li class="h-full slide" data-active>
+              <div class="bg-gradient h-full slide-content rounded-3xl lg:p-5">
+                <div class="location flex items-center justify-between">
+                  <div class="flex items-center">
+                    <img src="./asset/location_.svg" alt="location" class=""">
+                    <p class="local-name">Town</p>
+                  </div>
+                  <p class="state">State</p>
+                  <p class="country">Country</p>
+                </div>
+
+                <div class="lat-lon mt-5 flex justify-between">
+                  <p class="font-light w-1/2 text-sm">
+                    Latitude:<span class="latitude ml-2 text-lg"></span>
+                  </p>
+                  <p class="font-light w-1/2 text-sm">
+                    Longitude:<span class="longitude ml-2 text-lg"></span>
+                  </p>
+                </div>
+
+                <div class="mt-5">
+                  <div
+                    class="forecast-main flex items-center justify-around px-2 mx-auto"
+                  >
+                    <img
+                      src="./asset/temperature_.svg"
+                      alt="temperature-meter"
+                    />
+                    <div class="flex items-center">
+                      <p class="temprature ml-3 lg:text-7xl text-3xl">0</p>
+                      <p class="unit lg:text-7xl text-3xl">°K</p>
+                    </div>
+                    <div class="flex flex-col items-center">
+                      <img
+                        src="./asset/cloud.svg"
+                        alt="cloud-image"
+                        width="80px"
+                        class="cloud-image"
+                      />
+                      <p class="discription">Sun set</p>
+                    </div>
+                  </div>
+                  <div class="date mt-10">
+                    Time (UTC): <span class="time"></span>
+                  </div>
+                </div>
+
+                <div
+                  class="my-10 px-10 lg:flex justify-between grid grid-cols-2 gap-10"
+                >
+                  <div class="text-center">
+                    <p class="text-sm font-light">HUMIDITY</p>
+                    <p><span class="humidity mr-2">0</span>%</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-sm font-light">VISIBILITY</p>
+                    <p><span class="visibility mr-2">0</span>km</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-sm font-light">AIR PRESSURE</p>
+                    <p><span class="air-pressure mr-2">0</span>hpa</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-sm font-light">WIND SPEED</p>
+                    <p><span class="wind mr-2">0</span>mph</p>
+                  </div>
+                </div>
+
+                <div class="mobile-screen px-5">
+                  <div class="flex items-center">
+                    <img src="./asset/location_.svg" alt="location" class=""">
+                    <p class="local-name-mob">Town</p>
+                  </div>
+
+                  <div class="grid grid-cols-2 gap-5">
+                    <p class="state-mob">State</p>
+                    <p class="country-mob">Country</p>
+                    <p class="font-light text-xs">
+                      Latitude:<span class="latitude-mob"></span>
+                    </p>
+                    <p class="font-light text-xs">
+                      Longitude:<span class="longitude-mob"></span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!-- <li class="h-full slide">
+            <div class="bg-gradient h-full slide-content rounded-3xl p-5">
+              <div class="location flex items-center">
+                <p class="location-name text-2xl">Abuja</p>
+                <img src="./asset/location_.svg" alt="location">
+              </div>
+              <div class="mt-16  bg-bgColo">
+                <div class="temprature w-[35%] flex items-center justify-between px-2 mx-auto">
+                  <img src="./asset/temperature_.svg" alt="temperature-meter">
+                  <p class="ml-5 mr-2 text-7xl">27<span class="temprature-unit">°C</span></p>
+                  <img src="./asset/cloud.svg" alt="cloud-image" width="80px">
+                </div>
+                <div class="date mt-10">Monday June 26 2023</div>
+              </div>
+              <div class="mt-10 px-10 flex justify-between">
+                <div class="text-center">
+                  <p>HUMIDITY</p>
+                  <p>90%</p>
+                </div>
+                <div class="text-center">
+                  <p>VISIBILITY</p>
+                  <p><span>8</span>km</p>
+                </div>
+                <div class="text-center">
+                  <p>AIR PRESSURE</p>
+                  <p><span>1005</span>hpa</p>
+                </div>
+                <div class="text-center">
+                  <p>WIND</p>
+                  <p><span>2</span>mph</p>
+                </div>
+              </div>
+            </div>
+          </li>
+
+          <li class="h-full slide">
+            <div class="bg-gradient h-full slide-content rounded-3xl p-5">
+              <div class="location flex items-center">
+                <p class="location-name text-2xl">Osogbo</p>
+                <img src="./asset/location_.svg" alt="location">
+              </div>
+              <div class="mt-16  bg-bgColo">
+                <div class="temprature w-[35%] flex items-center justify-between px-2 mx-auto">
+                  <img src="./asset/temperature_.svg" alt="temperature-meter">
+                  <p class="ml-5 mr-2 text-7xl">27<span class="temprature-unit">°C</span></p>
+                  <img src="./asset/cloud.svg" alt="cloud-image" width="80px">
+                </div>
+                <div class="date mt-10">Monday June 26 2023</div>
+              </div>
+              <div class="mt-10 px-10 flex justify-between">
+                <div class="text-center">
+                  <p>HUMIDITY</p>
+                  <p>90%</p>
+                </div>
+                <div class="text-center">
+                  <p>VISIBILITY</p>
+                  <p><span>8</span>km</p>
+                </div>
+                <div class="text-center">
+                  <p>AIR PRESSURE</p>
+                  <p><span>1005</span>hpa</p>
+                </div>
+                <div class="text-center">
+                  <p>WIND</p>
+                  <p><span>2</span>mph</p>
+                </div>
+              </div>
+            </div>
+          </li> -->
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="lg:px-20 px-5">
+      <div class="card-wrapper mt-20">
+        <div class="cards">
+          <div class="card py-1">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+          <div class="card py-1 lg:ml-20 ml-5">
+            <p class="text-sm">19:00 pm</p>
+            <img src="./asset/rain cloud.svg" alt="" />
+            <p>29°C</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
