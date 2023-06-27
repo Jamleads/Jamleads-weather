@@ -34,7 +34,7 @@ async function locationByNmae() {
 
   if (locationSearch) {
     const resp = await fetch(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${locationSearch}&limit=5&appid=${openWeOldKey}`
+      `https://api.openweathermap.org/geo/1.0/direct?q=${locationSearch}&limit=5&appid=${openWeOldKey}`
     );
     const data = await resp.json();
 
